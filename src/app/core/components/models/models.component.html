@@ -1,0 +1,6 @@
+<select (change)="onModelChange($event)">
+  <option value="">Select a model</option>
+  @for (model of models();track model.id) {
+  <option [value]="model.id">{{ model.name }}</option>
+  }
+</select>
