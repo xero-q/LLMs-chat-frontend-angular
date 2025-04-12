@@ -54,7 +54,7 @@ export class ThreadsComponent {
             this.doLoadThreads();
           },
           error: (error: any) => {
-            const messages = error.error.message;
+            const messages = error.error.message ?? error.error.error;
             let messagesString = '';
             if (Array.isArray(messages)) {
               messagesString = messages.join('\n');

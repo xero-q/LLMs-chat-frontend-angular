@@ -18,10 +18,16 @@ export class ThreadService {
 
   startThread(model_id: number, thread_title: string): Observable<Thread> {
     return this.httpClient.post<Thread>(
-      `${this.apiUrl}/api/threads/${model_id}`,
+      `${this.apiUrl}/api/threads/${model_id}/start`,
       {
         title: thread_title,
       }
+    );
+  }
+
+  deleteThread(threadId: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${this.apiUrl}/api/threads/${threadId}`
     );
   }
 }

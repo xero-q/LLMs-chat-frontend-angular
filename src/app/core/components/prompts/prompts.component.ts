@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { StateService } from '../../services/state.service';
+import { ThreadService } from '../../services/thread.service';
 
 @Component({
   selector: 'app-prompts',
@@ -21,6 +22,7 @@ import { StateService } from '../../services/state.service';
 })
 export class PromptsComponent {
   private promptsService = inject(PromptService);
+  private threadsService = inject(ThreadService);
   public stateService = inject(StateService);
 
   @Input() threadId!: number;
@@ -74,5 +76,24 @@ export class PromptsComponent {
           },
         });
     }
+  }
+
+  onDeleteThread(thread_id: number) {
+    this.threadsService.deleteThread(thread_id).subscribe({
+      next: () => {
+        this.stateService.clearSelectedThread();
+      },
+      error: (error: any) => {
+        this.submitting = false;
+        const messages = error.error.message ?? error.error.error;
+        let messagesString = '';
+        if (Array.isArray(messages)) {
+          messagesString = messages.join(', ');
+        } else {
+          messagesString = messages;
+        }
+        alert(messagesString);
+      },
+    });
   }
 }

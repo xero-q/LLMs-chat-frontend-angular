@@ -28,4 +28,8 @@ export class StateService {
   getSelectedThread() {
     return this.selectedThread;
   }
+
+  clearSelectedThread() {
+    this.selectedThread = null;
+  }
 }

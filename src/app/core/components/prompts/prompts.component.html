@@ -1,5 +1,14 @@
 <div class="container">
-  <h2>Thread: {{ stateService.getSelectedThread()?.title }}</h2>
+  <div class="top">
+    <h2>Thread: {{ stateService.getSelectedThread()?.title }}</h2>
+    <button
+      *ngIf="stateService.getSelectedThread()"
+      type="button"
+      (click)="onDeleteThread(stateService.getSelectedThread()!.id)"
+    >
+      DELETE
+    </button>
+  </div>
   @for (prompt of prompts(); track prompt.id) {
   <div class="prompt-card">
     <h4 style="font-weight: bold">{{ prompt.created_at | date : "long" }}</h4>
