@@ -11,6 +11,7 @@ import { Prompt } from '../../../shared/interfaces/prompt';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
+import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-prompts',
@@ -20,6 +21,7 @@ import { MarkdownModule } from 'ngx-markdown';
 })
 export class PromptsComponent {
   private promptsService = inject(PromptService);
+  public stateService = inject(StateService);
 
   @Input() threadId!: number;
   promptForm!: FormGroup;

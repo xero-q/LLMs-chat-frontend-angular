@@ -28,10 +28,7 @@
 <div class="container">
   @for (thread of threads(); track thread.id) {
   <div class="card">
-    <h4>{{ thread.title }}</h4>
-    <button (click)="onThreadSelect(thread)" type="button">
-      Select Thread
-    </button>
+    <h4 (click)="onThreadSelect(thread)">{{ thread.title }}</h4>
   </div>
   }
 </div>
