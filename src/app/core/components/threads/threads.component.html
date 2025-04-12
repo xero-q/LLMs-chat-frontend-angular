@@ -1,7 +1,7 @@
 <div *ngIf="stateService.selectedModel && threadFormVisible">
   <form [formGroup]="threadForm" (ngSubmit)="onSubmit()">
     <div>
-      <label for="name"><b>Title of new Thread:</b></label>
+      <label for="name"><b>New Thread:</b></label>
       <input id="name" formControlName="thread_title" type="text" />
       <div
         *ngIf="
@@ -9,7 +9,9 @@
           threadForm.get('thread_title')?.touched
         "
       >
-        <small *ngIf="threadForm.get('thread_title')?.errors?.['required']"
+        <small
+          *ngIf="threadForm.get('thread_title')?.errors?.['required']"
+          style="color: red"
           >Title is required.</small
         >
       </div>
@@ -19,7 +21,7 @@
   </form>
 </div>
 
-<div *ngIf="stateService.selectedModel">
+<div *ngIf="stateService.selectedModel" class="toggle-thread-form">
   <button (click)="threadFormVisible = !threadFormVisible" type="button">
     Toogle Thread Form
   </button>

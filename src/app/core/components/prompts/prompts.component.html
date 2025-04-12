@@ -6,12 +6,22 @@
       type="button"
       (click)="onDeleteThread(stateService.getSelectedThread()!.id)"
     >
-      DELETE
+      Delete
     </button>
   </div>
+  <div class="thread-info" *ngIf="stateService.getSelectedThread()">
+    <h2>
+      Model: {{ stateService.getSelectedThread()!.model_name }} -
+      {{ stateService.getSelectedThread()!.is_online ? "Online" : "Offline" }}
+    </h2>
+  </div>
+  <h5 *ngIf="stateService.getSelectedThread()" style="font-weight: bold">
+    {{
+      stateService.getSelectedThread()!.first_prompt_datetime | date : "long"
+    }}
+  </h5>
   @for (prompt of prompts(); track prompt.id) {
   <div class="prompt-card">
-    <h4 style="font-weight: bold">{{ prompt.created_at | date : "long" }}</h4>
     <h4><b>Prompt:</b> {{ prompt.prompt }}</h4>
     <h4><b>Response:</b></h4>
     <div class="response">
@@ -38,7 +48,7 @@
       </div>
 
       <button type="submit" [disabled]="promptForm.invalid || submitting">
-        SEND
+        Send
       </button>
       <span *ngIf="submitting">Waiting response...</span>
     </form>

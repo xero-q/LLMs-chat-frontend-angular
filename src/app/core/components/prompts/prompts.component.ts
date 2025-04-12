@@ -83,22 +83,24 @@ export class PromptsComponent {
   }
 
   onDeleteThread(thread_id: number) {
-    this.threadsService.deleteThread(thread_id).subscribe({
-      next: () => {
-        this.threadDeleted.emit();
-        this.stateService.clearSelectedThread();
-      },
-      error: (error: any) => {
-        this.submitting = false;
-        const messages = error.error.message ?? error.error.error;
-        let messagesString = '';
-        if (Array.isArray(messages)) {
-          messagesString = messages.join(', ');
-        } else {
-          messagesString = messages;
-        }
-        alert(messagesString);
-      },
-    });
+    if (confirm('Are you sure?')) {
+      this.threadsService.deleteThread(thread_id).subscribe({
+        next: () => {
+          this.threadDeleted.emit();
+          this.stateService.clearSelectedThread();
+        },
+        error: (error: any) => {
+          this.submitting = false;
+          const messages = error.error.message ?? error.error.error;
+          let messagesString = '';
+          if (Array.isArray(messages)) {
+            messagesString = messages.join(', ');
+          } else {
+            messagesString = messages;
+          }
+          alert(messagesString);
+        },
+      });
+    }
   }
 }
