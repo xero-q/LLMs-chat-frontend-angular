@@ -15,6 +15,7 @@
     <app-prompts
       *ngIf="stateService.selectedThread"
       [threadId]="stateService.selectedThread!.id"
+      (threadDeleted)="onThreadDeleted()"
     ></app-prompts>
   </div>
 </div>

@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   inject,
   Input,
+  Output,
   signal,
   SimpleChanges,
   WritableSignal,
@@ -26,6 +28,8 @@ export class PromptsComponent {
   public stateService = inject(StateService);
 
   @Input() threadId!: number;
+  @Output() threadDeleted = new EventEmitter<void>();
+
   promptForm!: FormGroup;
 
   public prompts: WritableSignal<Prompt[]> = signal([]);
@@ -81,6 +85,7 @@ export class PromptsComponent {
   onDeleteThread(thread_id: number) {
     this.threadsService.deleteThread(thread_id).subscribe({
       next: () => {
+        this.threadDeleted.emit();
         this.stateService.clearSelectedThread();
       },
       error: (error: any) => {

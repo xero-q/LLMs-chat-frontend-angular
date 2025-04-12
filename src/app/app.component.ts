@@ -1,4 +1,10 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { ModelsComponent } from './core/components/models/models.component';
 import { StateService } from './core/services/state.service';
 import { NgIf } from '@angular/common';
@@ -16,4 +22,15 @@ export class AppComponent {
   title = 'Ollama API Chatbot';
 
   stateService = inject(StateService);
+
+  @ViewChild(ThreadsComponent) threadsComponent!: ThreadsComponent;
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  onThreadDeleted() {
+    if (this.threadsComponent) {
+      this.threadsComponent.doLoadThreads();
+      this.cdr.detectChanges();
+    }
+  }
 }
