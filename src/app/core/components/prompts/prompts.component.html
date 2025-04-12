@@ -5,7 +5,7 @@
     <h4><b>Prompt:</b> {{ prompt.prompt }}</h4>
     <h4><b>Response:</b></h4>
     <div class="response">
-      {{ prompt.response }}
+      <markdown [data]="prompt.response"></markdown>
     </div>
   </div>
   }

@@ -10,10 +10,11 @@ import { PromptService } from '../../services/prompt.service';
 import { Prompt } from '../../../shared/interfaces/prompt';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-prompts',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MarkdownModule],
   templateUrl: './prompts.component.html',
   styleUrl: './prompts.component.scss',
 })
