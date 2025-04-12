@@ -1,4 +1,20 @@
-<h3 *ngIf="stateService.selectedModel">
-  SELECTED MODEL: {{ stateService.selectedModel.name }}
-</h3>
-<app-models></app-models>
+<div class="top">
+  <div>
+    <app-models></app-models>
+    <h3 *ngIf="stateService.selectedModel">
+      Selected Model: {{ stateService.selectedModel.name }} -
+      {{ stateService.selectedModel.is_online ? "Online" : "Offline" }}
+    </h3>
+  </div>
+</div>
+<div class="content">
+  <div class="left">
+    <app-threads></app-threads>
+  </div>
+  <div class="right">
+    <app-prompts
+      *ngIf="stateService.selectedThread"
+      [threadId]="stateService.selectedThread!.id"
+    ></app-prompts>
+  </div>
+</div>

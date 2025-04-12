@@ -1,0 +1,36 @@
+<div class="container">
+  @for (prompt of prompts(); track prompt.id) {
+  <div class="prompt-card">
+    <h4 style="font-weight: bold">{{ prompt.created_at | date : "long" }}</h4>
+    <h4><b>Prompt:</b> {{ prompt.prompt }}</h4>
+    <h4><b>Response:</b></h4>
+    <div class="response">
+      {{ prompt.response }}
+    </div>
+  </div>
+  }
+
+  <div class="form-container">
+    <form [formGroup]="promptForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="prompt"><b>Enter new prompt:</b></label>
+        <textarea id="prompt" formControlName="prompt" type="text"> </textarea>
+        <div
+          *ngIf="
+            promptForm.get('prompt')?.invalid &&
+            promptForm.get('prompt')?.touched
+          "
+        >
+          <small *ngIf="promptForm.get('prompt')?.errors?.['required']"
+            >Prompt is required.</small
+          >
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="promptForm.invalid || submitting">
+        SEND
+      </button>
+      <span *ngIf="submitting">Waiting response...</span>
+    </form>
+  </div>
+</div>

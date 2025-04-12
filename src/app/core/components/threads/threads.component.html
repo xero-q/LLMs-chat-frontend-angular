@@ -1,0 +1,37 @@
+<div *ngIf="stateService.selectedModel && threadFormVisible">
+  <form [formGroup]="threadForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name"><b>Title of new Thread:</b></label>
+      <input id="name" formControlName="thread_title" type="text" />
+      <div
+        *ngIf="
+          threadForm.get('thread_title')?.invalid &&
+          threadForm.get('thread_title')?.touched
+        "
+      >
+        <small *ngIf="threadForm.get('thread_title')?.errors?.['required']"
+          >Title is required.</small
+        >
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="threadForm.invalid">Submit</button>
+  </form>
+</div>
+
+<div *ngIf="stateService.selectedModel">
+  <button (click)="threadFormVisible = !threadFormVisible" type="button">
+    Toogle Thread Form
+  </button>
+</div>
+
+<div class="container">
+  @for (thread of threads(); track thread.id) {
+  <div class="card">
+    <h4>{{ thread.title }}</h4>
+    <button (click)="onThreadSelect(thread)" type="button">
+      Select Thread
+    </button>
+  </div>
+  }
+</div>

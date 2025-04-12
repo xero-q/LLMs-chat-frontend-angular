@@ -11,7 +11,7 @@ import { StateService } from '../../services/state.service';
 })
 export class ModelsComponent {
   private modelsService = inject(ModelService);
-  private stateService = inject(StateService);
+  public stateService = inject(StateService);
 
   public models: WritableSignal<Model[]> = signal([]);
 

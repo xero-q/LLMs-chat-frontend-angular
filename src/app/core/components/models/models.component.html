@@ -1,6 +1,11 @@
 <select (change)="onModelChange($event)">
   <option value="">Select a model</option>
   @for (model of models();track model.id) {
-  <option [value]="model.id">{{ model.name }}</option>
+  <option
+    [value]="model.id"
+    [selected]="model.id === stateService.selectedModel?.id"
+  >
+    {{ model.name }} - {{ model.is_online ? "Online" : "Offline" }}
+  </option>
   }
 </select>
