@@ -21,7 +21,10 @@
 
 <div class="container">
   @for (thread of threads(); track thread.id) {
-  <div class="card">
+  <div
+    class="card"
+    [class.selected]="thread.id === stateService.selectedThread?.id"
+  >
     <h4 (click)="onThreadSelect(thread)">{{ thread.title }}</h4>
   </div>
   }
