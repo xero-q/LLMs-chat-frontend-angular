@@ -11,7 +11,12 @@ import {
 import { PromptService } from '../../services/prompt.service';
 import { Prompt } from '../../../shared/interfaces/prompt';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { StateService } from '../../services/state.service';
 import { ThreadService } from '../../services/thread.service';
@@ -40,7 +45,7 @@ export class PromptsComponent {
 
   ngOnInit(): void {
     this.promptForm = this.fb.group({
-      prompt: [''],
+      prompt: ['', Validators.required],
     });
   }
 

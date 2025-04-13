@@ -1,45 +1,60 @@
-<div class="container">
-  <div class="top">
-    <h2>Thread: {{ stateService.getSelectedThread()?.title }}</h2>
+<div class="container" *ngIf="stateService.selectedThread">
+  <div class="mb-4 flex items-center justify-between">
+    <div>
+      <h2 class="text-xl font-semibold">
+        Thread: {{ stateService.selectedThread!.title }}
+      </h2>
+      <p class="text-sm text-gray-500">
+        Model: {{ stateService.selectedThread!.model_name }} -
+        {{ stateService.selectedThread!.is_online ? "Online" : "Offline" }}
+      </p>
+      <p class="text-sm text-gray-500">
+        {{ stateService.selectedThread!.first_prompt_datetime | date : "long" }}
+      </p>
+    </div>
+
     <button
-      *ngIf="stateService.getSelectedThread()"
+      class="bg-red-500 text-white px-3 py-1 rounded"
+      *ngIf="stateService.selectedThread"
       type="button"
-      (click)="onDeleteThread(stateService.getSelectedThread()!.id)"
+      (click)="onDeleteThread(stateService.selectedThread!.id)"
     >
-      DELETE
+      Delete
     </button>
   </div>
-  @for (prompt of prompts(); track prompt.id) {
-  <div class="prompt-card">
-    <h4 style="font-weight: bold">{{ prompt.created_at | date : "long" }}</h4>
-    <h4><b>Prompt:</b> {{ prompt.prompt }}</h4>
-    <h4><b>Response:</b></h4>
-    <div class="response">
-      <markdown [data]="prompt.response"></markdown>
+
+  <div class="flex-1 border rounded p-4 bg-gray-50 mb-4 overflow-y-auto">
+    @for (prompt of prompts(); track prompt.id) {
+    <div class="mb-4">
+      <div class="bg-white shadow px-4 py-2 rounded mb-2">
+        <p class="text-sm text-gray-800">User: {{ prompt.prompt }}</p>
+      </div>
+      <div class="bg-blue-50 shadow px-4 py-2 rounded">
+        <p class="text-sm text-gray-800">
+          <markdown [data]="prompt.response"></markdown>
+        </p>
+      </div>
     </div>
+    }
   </div>
-  }
 
   <div class="form-container">
     <form [formGroup]="promptForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label for="prompt"><b>Enter new prompt:</b></label>
-        <textarea id="prompt" formControlName="prompt" type="text"> </textarea>
-        <div
-          *ngIf="
-            promptForm.get('prompt')?.invalid &&
-            promptForm.get('prompt')?.touched
-          "
+      <div class="flex items-center gap-2">
+        <textarea
+          class="flex-1 border rounded px-3 py-2"
+          rows="2"
+          placeholder="Enter new prompt..."
+          formControlName="prompt"
+        ></textarea>
+        <button
+          type="submit"
+          class="bg-blue-600 text-white px-4 py-2 rounded"
+          [disabled]="promptForm.invalid || submitting"
         >
-          <small *ngIf="promptForm.get('prompt')?.errors?.['required']"
-            >Prompt is required.</small
-          >
-        </div>
+          Send
+        </button>
       </div>
-
-      <button type="submit" [disabled]="promptForm.invalid || submitting">
-        SEND
-      </button>
       <span *ngIf="submitting">Waiting response...</span>
     </form>
   </div>
