@@ -19,11 +19,14 @@
       type="button"
       (click)="onDeleteThread(stateService.selectedThread!.id)"
     >
-      Delete Delete
+      Delete
     </button>
   </div>
 
-  <div class="flex-1 border rounded p-4 bg-gray-50 mb-4 overflow-y-auto">
+  <div
+    class="flex-1 border rounded p-4 bg-gray-50 mb-4 overflow-y-auto"
+    *ngIf="prompts().length > 0"
+  >
     @for (prompt of prompts(); track prompt.id) {
     <div class="mb-4">
       <div class="bg-white shadow px-4 py-2 rounded mb-2">
