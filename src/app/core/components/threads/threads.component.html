@@ -20,12 +20,19 @@
 </button>
 
 <div class="container">
-  @for (thread of threads(); track thread.id) {
-  <div
-    class="card"
-    [class.selected]="thread.id === stateService.selectedThread?.id"
-  >
-    <h4 (click)="onThreadSelect(thread)">{{ thread.title }}</h4>
+  @for (threadList of threads(); track threadList.date) {
+  <div>
+    <h3 class="text-lg font-semibold mb-2">
+      {{ threadList.date | date : "fullDate" }}
+    </h3>
+    <div *ngFor="let thread of threadList.threads">
+      <div
+        class="card"
+        [class.selected]="thread.id === stateService.selectedThread?.id"
+      >
+        <h4 (click)="onThreadSelect(thread)">{{ thread.title }}</h4>
+      </div>
+    </div>
   </div>
   }
 </div>

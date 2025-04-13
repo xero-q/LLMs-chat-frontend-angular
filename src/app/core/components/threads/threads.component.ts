@@ -8,11 +8,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { ThreadsList } from '../../../shared/interfaces/threads-list';
 
 @Component({
   selector: 'app-threads',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, NgFor, CommonModule],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
 })
@@ -20,7 +21,7 @@ export class ThreadsComponent {
   private threadService = inject(ThreadService);
   public stateService = inject(StateService);
 
-  public threads: WritableSignal<Thread[]> = signal([]);
+  public threads: WritableSignal<ThreadsList[]> = signal([]);
 
   threadForm!: FormGroup;
   threadFormVisible = false;

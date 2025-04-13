@@ -9,7 +9,7 @@
         {{ stateService.selectedThread!.is_online ? "Online" : "Offline" }}
       </p>
       <p class="text-sm text-gray-500">
-        {{ stateService.selectedThread!.first_prompt_datetime | date : "long" }}
+        {{ stateService.selectedThread!.created_at | date : "long" }}
       </p>
     </div>
 
