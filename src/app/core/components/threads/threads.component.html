@@ -28,9 +28,10 @@
     <div *ngFor="let thread of threadList.threads">
       <div
         class="card"
+        (click)="onThreadSelect(thread)"
         [class.selected]="thread.id === stateService.selectedThread?.id"
       >
-        <h4 (click)="onThreadSelect(thread)">{{ thread.title }}</h4>
+        <h4>{{ thread.title }}</h4>
       </div>
     </div>
   </div>
