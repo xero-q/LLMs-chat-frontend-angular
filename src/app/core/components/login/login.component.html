@@ -1,7 +1,7 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
   <div class="w-full max-w-md p-8 bg-white rounded shadow-md">
     <h2 class="mb-6 text-2xl font-bold text-center text-gray-800">Login</h2>
-    <form>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="mb-4">
         <label
           for="username"
@@ -14,6 +14,7 @@
           name="username"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter your username"
+          formControlName="username"
         />
       </div>
       <div class="mb-4">
@@ -28,6 +29,7 @@
           name="password"
           class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Enter your password"
+          formControlName="password"
         />
       </div>
       <button

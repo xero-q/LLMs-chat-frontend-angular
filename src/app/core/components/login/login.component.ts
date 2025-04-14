@@ -1,11 +1,54 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  loginForm!: FormGroup;
+  authService = inject(AuthService);
 
+  constructor(private fb: FormBuilder, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
+  }
+
+  onSubmit() {
+    if (this.loginForm.valid) {
+      this.authService
+        .login(
+          this.loginForm.get('username')?.value,
+          this.loginForm.get('password')?.value
+        )
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/home']);
+          },
+          error: (error: any) => {
+            const messages = error.error.detail ?? error.error.error;
+            let messagesString = '';
+            if (Array.isArray(messages)) {
+              messagesString = messages.join('\n');
+            } else {
+              messagesString = messages;
+            }
+            alert(messagesString);
+          },
+        });
+    }
+  }
 }
