@@ -1,4 +1,11 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Output,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { ThreadService } from '../../services/thread.service';
 import { Thread } from '../../../shared/interfaces/thread';
 import { StateService } from '../../services/state.service';

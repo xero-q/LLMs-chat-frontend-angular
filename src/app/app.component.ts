@@ -1,36 +1,14 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  inject,
-  ViewChild,
-} from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ModelsComponent } from './core/components/models/models.component';
-import { StateService } from './core/services/state.service';
-import { NgIf } from '@angular/common';
-import { ThreadsComponent } from './core/components/threads/threads.component';
-import { PromptsComponent } from './core/components/prompts/prompts.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [ModelsComponent, NgIf, ThreadsComponent, PromptsComponent],
+  imports: [RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'Ollama API Chatbot';
-
-  stateService = inject(StateService);
-
-  @ViewChild(ThreadsComponent) threadsComponent!: ThreadsComponent;
-
-  constructor(private cdr: ChangeDetectorRef) {}
-
-  onThreadDeleted() {
-    if (this.threadsComponent) {
-      this.threadsComponent.doLoadThreads();
-      this.cdr.detectChanges();
-    }
-  }
+  title = 'AI Interface';
 }
