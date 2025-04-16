@@ -10,6 +10,7 @@ import { StateService } from '../../services/state.service';
 import { ModelsComponent } from '../models/models.component';
 import { NgIf } from '@angular/common';
 import { PromptsComponent } from '../prompts/prompts.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,8 @@ import { PromptsComponent } from '../prompts/prompts.component';
 })
 export class HomeComponent {
   stateService = inject(StateService);
+  authService = inject(AuthService);
+  menuOpen = false;
 
   @ViewChild(ThreadsComponent) threadsComponent!: ThreadsComponent;
   @ViewChild(PromptsComponent) promptsComponent!: PromptsComponent;
@@ -31,5 +34,13 @@ export class HomeComponent {
       this.threadsComponent.doLoadThreads();
       this.cdr.detectChanges();
     }
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

@@ -1,9 +1,41 @@
 <div class="h-screen flex flex-col">
   <header class="bg-gray-100 p-4 shadow-md flex items-center justify-between">
     <h1 class="text-xl font-bold">AI Prompt Interface</h1>
-    <div>
+    <div class="flex items-center space-x-2">
       <label class="text-sm font-medium mr-2" for="model-select">Model:</label>
       <app-models></app-models>
+      <div class="relative" (click)="toggleMenu()" tabindex="0">
+        <button
+          class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <!-- User Icon (or replace with a hamburger icon) -->
+          <svg
+            class="w-6 h-6 text-gray-700"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="8" r="4" />
+            <path d="M6 20c0-2.2 3-4 6-4s6 1.8 6 4" />
+          </svg>
+        </button>
+
+        <!-- Dropdown menu -->
+        <div
+          *ngIf="menuOpen"
+          class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-10"
+        >
+          <button
+            (click)="logout()"
+            class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
     </div>
   </header>
   <main class="flex flex-1 overflow-hidden">
