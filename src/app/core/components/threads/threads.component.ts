@@ -17,10 +17,11 @@ import {
 } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { ThreadsList } from '../../../shared/interfaces/threads-list';
+import { FriendlyDatePipe } from '../../../shared/pipes/friendly-date.pipe';
 
 @Component({
   selector: 'app-threads',
-  imports: [ReactiveFormsModule, NgIf, NgFor, CommonModule],
+  imports: [ReactiveFormsModule, NgIf, NgFor, CommonModule, FriendlyDatePipe],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
 })

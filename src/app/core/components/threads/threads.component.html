@@ -38,7 +38,7 @@
   @for (threadList of threads(); track threadList.date) {
   <div>
     <h3 class="text-lg font-semibold mb-2">
-      {{ threadList.date | date : "fullDate" }}
+      {{ threadList.date | friendlyDate }}
     </h3>
     <div *ngFor="let thread of threadList.threads">
       <div

@@ -9,6 +9,7 @@ import {
 } from '@angular/common/http';
 import { provideMarkdown } from 'ngx-markdown';
 import { AuthInterceptor } from './shared/auth.interceptor';
+import { DatePipe } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,5 +22,6 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthInterceptor,
       multi: true,
     },
+    DatePipe,
   ],
 };
