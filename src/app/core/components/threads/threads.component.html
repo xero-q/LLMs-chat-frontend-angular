@@ -46,7 +46,7 @@
         (click)="onThreadSelect(thread)"
         [class.selected]="thread.id === stateService.selectedThread?.id"
       >
-        <h4>{{ thread.title }}</h4>
+        <h4>{{ thread.title }} ({{ thread.model_type }})</h4>
       </div>
     </div>
   </div>
