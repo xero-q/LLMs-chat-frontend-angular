@@ -4,5 +4,5 @@ export interface Thread {
   title: string;
   created_at: Date;
   model_name: string;
-  is_online: boolean;
+  model_type: string;
 }

@@ -5,11 +5,12 @@
         Thread: {{ stateService.selectedThread!.title }}
       </h2>
       <p class="text-sm text-gray-500">
-        Model: {{ stateService.selectedThread!.model_name }} -
-        {{ stateService.selectedThread!.is_online ? "Online" : "Offline" }}
+        Model: {{ stateService.selectedThread!.model_name }} - ({{
+          stateService.selectedThread!.model_type
+        }})
       </p>
       <p class="text-sm text-gray-500">
-        {{ stateService.selectedThread!.created_at | date : "long" }}
+        Created: {{ stateService.selectedThread!.created_at | friendlyDate }}
       </p>
     </div>
 

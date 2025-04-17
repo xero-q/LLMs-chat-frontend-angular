@@ -15,8 +15,6 @@ export class FriendlyDatePipe implements PipeTransform {
     const date = new Date(value);
     const now = new Date();
 
-    console.log({ value, date, now });
-
     const isToday =
       date.getFullYear() === now.getFullYear() &&
       date.getMonth() === now.getMonth() &&

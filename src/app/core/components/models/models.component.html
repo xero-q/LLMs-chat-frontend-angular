@@ -5,7 +5,7 @@
     [value]="model.id"
     [selected]="model.id === stateService.selectedModel?.id"
   >
-    {{ model.name }} - {{ model.is_online ? "Online" : "Offline" }}
+    {{ model.name }} - ({{ model.model_type }})
   </option>
   }
 </select>

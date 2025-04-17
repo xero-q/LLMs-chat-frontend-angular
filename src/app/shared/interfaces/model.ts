@@ -1,5 +1,5 @@
 export interface Model {
   id: number;
   name: string;
-  is_online: boolean;
+  model_type: string;
 }

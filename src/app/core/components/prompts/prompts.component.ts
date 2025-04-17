@@ -20,10 +20,16 @@ import {
 import { MarkdownModule } from 'ngx-markdown';
 import { StateService } from '../../services/state.service';
 import { ThreadService } from '../../services/thread.service';
+import { FriendlyDatePipe } from '../../../shared/pipes/friendly-date.pipe';
 
 @Component({
   selector: 'app-prompts',
-  imports: [CommonModule, ReactiveFormsModule, MarkdownModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MarkdownModule,
+    FriendlyDatePipe,
+  ],
   templateUrl: './prompts.component.html',
   styleUrl: './prompts.component.scss',
 })
