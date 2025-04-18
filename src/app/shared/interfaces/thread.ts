@@ -5,4 +5,5 @@ export interface Thread {
   created_at: Date;
   model_name: string;
   model_type: string;
+  model_identifier: string;
 }
