@@ -1,0 +1,149 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md p-8 bg-white rounded shadow-md">
+    <h2 class="mb-6 text-2xl font-bold text-center text-gray-800">Sign Up</h2>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <!-- Username -->
+      <div class="mb-4">
+        <label
+          for="username"
+          class="block mb-2 text-sm font-medium text-gray-700"
+          >Username</label
+        >
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Username"
+          formControlName="username"
+        />
+        <div
+          *ngIf="
+            signupForm.get('username')?.invalid &&
+            signupForm.get('username')?.touched
+          "
+        >
+          <p
+            class="text-sm text-red-500 mt-1"
+            *ngIf="signupForm.get('username')?.errors?.['required']"
+          >
+            Username is required.
+          </p>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-4">
+        <label for="email" class="block mb-2 text-sm font-medium text-gray-700"
+          >Email</label
+        >
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Email"
+          formControlName="email"
+        />
+        <div
+          *ngIf="
+            signupForm.get('email')?.invalid && signupForm.get('email')?.touched
+          "
+        >
+          <p
+            class="text-sm text-red-500 mt-1"
+            *ngIf="signupForm.get('email')?.errors?.['required']"
+          >
+            Email is required.
+          </p>
+          <p
+            class="text-sm text-red-500 mt-1"
+            *ngIf="signupForm.get('email')?.errors?.['email']"
+          >
+            Enter a valid email.
+          </p>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-4">
+        <label
+          for="password"
+          class="block mb-2 text-sm font-medium text-gray-700"
+          >Password</label
+        >
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <div
+          *ngIf="
+            signupForm.get('password')?.invalid &&
+            signupForm.get('password')?.touched
+          "
+        >
+          <p
+            class="text-sm text-red-500 mt-1"
+            *ngIf="signupForm.get('password')?.errors?.['required']"
+          >
+            Password is required.
+          </p>
+        </div>
+      </div>
+
+      <!-- Password Confirmation -->
+      <div class="mb-6">
+        <label
+          for="passwordConfirmation"
+          class="block mb-2 text-sm font-medium text-gray-700"
+          >Confirm Password</label
+        >
+        <input
+          type="password"
+          id="passwordConfirmation"
+          name="passwordConfirmation"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Confirm Password"
+          formControlName="passwordConfirmation"
+        />
+        <div
+          *ngIf="
+            signupForm.get('passwordConfirmation')?.invalid &&
+            signupForm.get('passwordConfirmation')?.touched
+          "
+        >
+          <p
+            class="text-sm text-red-500 mt-1"
+            *ngIf="signupForm.get('passwordConfirmation')?.errors?.['required'] && !signupForm.get('password')?.errors?.['required']"
+          >
+            Confirming your password is required.
+          </p>
+        </div>
+        <div
+          *ngIf="signupForm.errors?.['passwordMismatch'] && !signupForm.get('passwordConfirmation')?.errors?.['required'] && signupForm.touched"
+        >
+          <p class="text-sm text-red-500 mt-1">Passwords do not match.</p>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Sign Up
+      </button>
+
+      <button
+        type="submit"
+        (click)="goToLogin()"
+        class="mt-2 w-full px-4 py-2 text-blue-600 bg-gray-100 border border-blue-500 rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300"
+      >
+        Return to Login
+      </button>
+    </form>
+  </div>
+</div>

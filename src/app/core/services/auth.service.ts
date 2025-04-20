@@ -29,6 +29,16 @@ export class AuthService {
     );
   }
 
+  signup(username: string, email: string, password: string) {
+    const payload = {
+      username,
+      email,
+      password,
+    };
+
+    return this.httpClient.post(`${this.apiUrl}/api/auth/signup`, payload);
+  }
+
   getAccessToken() {
     return localStorage.getItem('access_token');
   }
