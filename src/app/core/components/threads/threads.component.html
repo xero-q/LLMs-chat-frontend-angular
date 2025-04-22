@@ -51,4 +51,11 @@
     </div>
   </div>
   }
+  <button
+    *ngIf="hasNext"
+    class="w-full bg-blue-500 text-white py-1 rounded mb-2"
+    (click)="loadMore()"
+  >
+    Load more...
+  </button>
 </div>

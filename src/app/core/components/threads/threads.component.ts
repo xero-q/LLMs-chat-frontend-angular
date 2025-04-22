@@ -16,7 +16,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { ThreadsList } from '../../../shared/interfaces/threads-list';
+import {
+  PaginatedThreadsList,
+  ThreadsList,
+} from '../../../shared/interfaces/threads-list';
 import { FriendlyDatePipe } from '../../../shared/pipes/friendly-date.pipe';
 
 @Component({
@@ -29,19 +32,27 @@ export class ThreadsComponent {
   private threadService = inject(ThreadService);
   public stateService = inject(StateService);
 
+  page = 1;
+  pageSize = 20;
+  hasNext = false;
+
   public threads: WritableSignal<ThreadsList[]> = signal([]);
 
   threadForm!: FormGroup;
   threadFormVisible = false;
 
   constructor(private fb: FormBuilder) {
-    this.doLoadThreads();
+    this.doLoadThreads(1);
   }
 
-  doLoadThreads() {
-    this.threadService.getThreads().subscribe((data) => {
-      this.threads.set(data);
-    });
+  doLoadThreads(page: number = 1) {
+    this.threadService
+      .getThreads(page, this.pageSize)
+      .subscribe((data: PaginatedThreadsList) => {
+        this.threads.set([...this.threads(), ...data.results]);
+        this.page = data.current_page;
+        this.hasNext = data.has_next;
+      });
   }
 
   ngOnInit(): void {
@@ -78,5 +89,9 @@ export class ThreadsComponent {
 
   onThreadSelect(thread: Thread) {
     this.stateService.setSelectedThread(thread);
+  }
+
+  loadMore() {
+    this.doLoadThreads(this.page + 1);
   }
 }
