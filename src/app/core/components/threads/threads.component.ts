@@ -25,19 +25,14 @@ export class ThreadsComponent {
   private threadService = inject(ThreadService);
   public stateService = inject(StateService);
 
-  private pages = signal(new Map<number, ThreadsList[]>());
-  public threads = computed(() =>
-    Array.from(this.pages().entries())
-      .sort(([a], [b]) => a - b)
-      .flatMap(([, threads]) => threads)
-  );
-
   page = 1;
   pageSize = 20;
   hasNext = false;
 
   threadForm!: FormGroup;
   threadFormVisible = false;
+
+  private pages = signal(new Map<number, ThreadsList[]>());
 
   constructor(private fb: FormBuilder) {}
 
@@ -47,6 +42,30 @@ export class ThreadsComponent {
     });
     this.loadPage(1);
   }
+
+  public threads = computed(() => {
+    const allThreads = Array.from(this.pages().values())
+      .flat()
+      .flatMap((group) => group.threads);
+
+    const grouped = new Map<string, Thread[]>();
+
+    for (const thread of allThreads) {
+      const dateKey = thread.created_at.toString().split('T')[0]; // YYYY-MM-DD
+
+      if (!grouped.has(dateKey)) {
+        grouped.set(dateKey, []);
+      }
+      grouped.get(dateKey)!.push(thread);
+    }
+
+    return Array.from(grouped.entries())
+      .sort(([a], [b]) => b.localeCompare(a)) // Sort dates descending
+      .map(([date, threads]) => ({
+        date,
+        threads,
+      }));
+  });
 
   loadPage(page: number) {
     this.threadService
@@ -97,5 +116,25 @@ export class ThreadsComponent {
 
   loadMore() {
     this.loadPage(this.page + 1);
+  }
+
+  removeThread(threadId: number) {
+    const currentPages = this.pages();
+    const updatedPages = new Map<number, ThreadsList[]>();
+
+    for (const [pageNum, lists] of currentPages.entries()) {
+      const newLists = lists
+        .map((list) => ({
+          ...list,
+          threads: list.threads.filter((t) => t.id !== threadId),
+        }))
+        .filter((list) => list.threads.length > 0); // Remove empty groups
+
+      if (newLists.length > 0) {
+        updatedPages.set(pageNum, newLists);
+      }
+    }
+
+    this.pages.set(updatedPages);
   }
 }

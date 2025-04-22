@@ -39,7 +39,7 @@ export class PromptsComponent {
   public stateService = inject(StateService);
 
   @Input() threadId!: number;
-  @Output() threadDeleted = new EventEmitter<void>();
+  @Output() threadDeleted = new EventEmitter<number>();
 
   promptForm!: FormGroup;
 
@@ -97,7 +97,7 @@ export class PromptsComponent {
     if (confirm('Are you sure?')) {
       this.threadsService.deleteThread(thread_id).subscribe({
         next: () => {
-          this.threadDeleted.emit();
+          this.threadDeleted.emit(thread_id);
           this.stateService.clearSelectedThread();
         },
         error: (error: any) => {

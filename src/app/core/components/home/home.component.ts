@@ -29,9 +29,9 @@ export class HomeComponent {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  onThreadDeleted() {
+  onThreadDeleted(thread_id: number) {
     if (this.threadsComponent) {
-      this.threadsComponent.loadPage(1);
+      this.threadsComponent.removeThread(thread_id);
       this.cdr.detectChanges();
     }
   }

@@ -46,7 +46,7 @@
       <app-prompts
         *ngIf="stateService.selectedThread"
         [threadId]="stateService.selectedThread!.id"
-        (threadDeleted)="onThreadDeleted()"
+        (threadDeleted)="onThreadDeleted(stateService.selectedThread!.id)"
       ></app-prompts>
     </section>
   </main>
