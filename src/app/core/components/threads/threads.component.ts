@@ -51,7 +51,7 @@ export class ThreadsComponent {
     const grouped = new Map<string, Thread[]>();
 
     for (const thread of allThreads) {
-      const dateKey = thread.created_at.toString().split('T')[0]; // YYYY-MM-DD
+      const dateKey = thread.created_at_date.toString();
 
       if (!grouped.has(dateKey)) {
         grouped.set(dateKey, []);
