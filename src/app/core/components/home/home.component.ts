@@ -31,7 +31,7 @@ export class HomeComponent {
 
   onThreadDeleted() {
     if (this.threadsComponent) {
-      this.threadsComponent.doLoadThreads();
+      this.threadsComponent.loadPage(1);
       this.cdr.detectChanges();
     }
   }
