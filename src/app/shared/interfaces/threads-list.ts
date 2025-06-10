@@ -6,7 +6,7 @@ export interface ThreadsList {
 }
 
 export interface PaginatedThreadsList {
-  current_page: number;
-  has_next: boolean;
+  currentPage: number;
+  hasNext: boolean;
   results: ThreadsList[];
 }

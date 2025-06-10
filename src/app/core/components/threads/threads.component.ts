@@ -51,7 +51,7 @@ export class ThreadsComponent {
     const grouped = new Map<string, Thread[]>();
 
     for (const thread of allThreads) {
-      const dateKey = thread.created_at_date.toString();
+      const dateKey = thread.createdAtDate.toString();
 
       if (!grouped.has(dateKey)) {
         grouped.set(dateKey, []);
@@ -75,8 +75,8 @@ export class ThreadsComponent {
         pagesCopy.set(page, data.results);
         this.pages.set(pagesCopy);
 
-        this.page = data.current_page;
-        this.hasNext = data.has_next;
+        this.page = data.currentPage;
+        this.hasNext = data.hasNext;
       });
   }
 

@@ -5,12 +5,12 @@
         Thread: {{ stateService.selectedThread!.title }}
       </h2>
       <p class="text-sm text-gray-500">
-        Model: {{ stateService.selectedThread!.model_name }} -
-        {{ stateService.selectedThread!.model_identifier }}
-        ({{ stateService.selectedThread!.model_type }})
+        Model: {{ stateService.selectedThread!.modelName }} -
+        {{ stateService.selectedThread!.modelIdentifier }}
+        ({{ stateService.selectedThread!.modelType }})
       </p>
       <p class="text-sm text-gray-500">
-        Created: {{ stateService.selectedThread!.created_at | friendlyDate }}
+        Created: {{ stateService.selectedThread!.createdAt | friendlyDate }}
       </p>
     </div>
 
