@@ -12,7 +12,13 @@ export class FriendlyDatePipe implements PipeTransform {
   transform(value: Date | string | null | undefined): string {
     if (!value) return '';
 
-    const date = new Date(value);
+    let date = null;
+    if (typeof value == 'string' && value.includes('T')) {
+      date = new Date(value);
+    } else {
+      date = new Date(`${value}T00:00:00`);
+    }
+
     const now = new Date();
 
     const isToday =
