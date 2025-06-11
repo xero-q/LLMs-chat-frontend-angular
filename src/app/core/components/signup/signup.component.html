@@ -4,143 +4,121 @@
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
       <!-- Username -->
       <div class="mb-4">
-        <label
-          for="username"
-          class="block mb-2 text-sm font-medium text-gray-700"
-          >Username</label
-        >
-        <input
-          type="text"
-          id="username"
-          name="username"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Username"
-          formControlName="username"
-        />
-        <div
-          *ngIf="
-            signupForm.get('username')?.invalid &&
-            signupForm.get('username')?.touched
-          "
-        >
-          <p
-            class="text-sm text-red-500 mt-1"
-            *ngIf="signupForm.get('username')?.errors?.['required']"
-          >
-            Username is required.
-          </p>
-        </div>
+        <mat-form-field class="w-full">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" placeholder="johndoe" />
+          @if (signupForm.controls['username'].hasError('required')) {
+          <mat-error>Username is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
       </div>
 
       <!-- Email -->
       <div class="mb-4">
-        <label for="email" class="block mb-2 text-sm font-medium text-gray-700"
-          >Email</label
-        >
-        <input
-          type="email"
-          id="email"
-          name="email"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Email"
-          formControlName="email"
-        />
-        <div
-          *ngIf="
-            signupForm.get('email')?.invalid && signupForm.get('email')?.touched
-          "
-        >
-          <p
-            class="text-sm text-red-500 mt-1"
-            *ngIf="signupForm.get('email')?.errors?.['required']"
-          >
-            Email is required.
-          </p>
-          <p
-            class="text-sm text-red-500 mt-1"
-            *ngIf="signupForm.get('email')?.errors?.['email']"
-          >
-            Enter a valid email.
-          </p>
-        </div>
+        <mat-form-field class="w-full">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            placeholder="johndoe@domain.com"
+          />
+          @if (signupForm.controls['email'].hasError('required')) {
+          <mat-error>Email is <strong>required</strong></mat-error>
+          } @if (!signupForm.controls['email'].hasError('required') &&
+          signupForm.controls['email'].hasError('email')) {
+          <mat-error>Enter a valid email</mat-error>
+          }
+        </mat-form-field>
       </div>
 
       <!-- Password -->
       <div class="mb-4">
-        <label
-          for="password"
-          class="block mb-2 text-sm font-medium text-gray-700"
-          >Password</label
-        >
-        <input
-          type="password"
-          id="password"
-          name="password"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Password"
-          formControlName="password"
-        />
-        <div
-          *ngIf="
-            signupForm.get('password')?.invalid &&
-            signupForm.get('password')?.touched
-          "
-        >
-          <p
-            class="text-sm text-red-500 mt-1"
-            *ngIf="signupForm.get('password')?.errors?.['required']"
+        <mat-form-field class="w-full">
+          <mat-label>Password</mat-label>
+
+          <input
+            matInput
+            [type]="hidePassword() ? 'password' : 'text'"
+            formControlName="password"
+            placeholder="yourpassword"
+          />
+
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword.set(!hidePassword())"
+            [attr.aria-label]="
+              hidePassword() ? 'Hide password' : 'Show password'
+            "
+            [attr.aria-pressed]="!hidePassword()"
           >
-            Password is required.
-          </p>
-        </div>
+            <mat-icon>{{
+              hidePassword() ? "visibility" : "visibility_off"
+            }}</mat-icon>
+          </button>
+
+          @if (signupForm.controls['password'].hasError('required')) {
+          <mat-error>Password is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
       </div>
 
       <!-- Password Confirmation -->
       <div class="mb-6">
-        <label
-          for="passwordConfirmation"
-          class="block mb-2 text-sm font-medium text-gray-700"
-          >Confirm Password</label
-        >
-        <input
-          type="password"
-          id="passwordConfirmation"
-          name="passwordConfirmation"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Confirm Password"
-          formControlName="passwordConfirmation"
-        />
-        <div
-          *ngIf="
-            signupForm.get('passwordConfirmation')?.invalid &&
-            signupForm.get('passwordConfirmation')?.touched
-          "
-        >
-          <p
-            class="text-sm text-red-500 mt-1"
-            *ngIf="signupForm.get('passwordConfirmation')?.errors?.['required'] && !signupForm.get('password')?.errors?.['required']"
+        <mat-form-field class="w-full">
+          <mat-label>Confirm password</mat-label>
+          <input
+            matInput
+            [type]="hideConfirmPassword() ? 'password' : 'text'"
+            formControlName="passwordConfirmation"
+            placeholder="yourpasswordconfirmation"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hideConfirmPassword.set(!hideConfirmPassword())"
+            [attr.aria-label]="
+              hideConfirmPassword() ? 'Hide password' : 'Show password'
+            "
+            [attr.aria-pressed]="!hideConfirmPassword()"
           >
-            Confirming your password is required.
-          </p>
-        </div>
-        <div
-          *ngIf="signupForm.errors?.['passwordMismatch'] && !signupForm.get('passwordConfirmation')?.errors?.['required'] && signupForm.touched"
-        >
-          <p class="text-sm text-red-500 mt-1">Passwords do not match.</p>
-        </div>
+            <mat-icon>{{
+              hideConfirmPassword() ? "visibility" : "visibility_off"
+            }}</mat-icon>
+          </button>
+          @if (!signupForm.controls['password'].hasError('required') &&
+          signupForm.controls['passwordConfirmation'].hasError('required')) {
+          <mat-error
+            >Confirming your password is <strong>required</strong></mat-error
+          >
+          }
+        </mat-form-field>
+
+        @if (signupForm.errors?.['passwordMismatch'] &&
+        !signupForm.get('passwordConfirmation')?.errors?.['required'] &&
+        signupForm.touched) {
+        <mat-error>Passwords do not match</mat-error>
+        }
       </div>
 
       <button
+        mat-raised-button
+        color="primary"
         type="submit"
-        class="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="w-full my-2"
+        [attr.aria-label]="'Submit'"
       >
         Sign Up
       </button>
 
       <button
-        type="submit"
+        mat-raised-button
+        type="button"
+        class="w-full link"
+        [attr.aria-label]="'Signup'"
         (click)="goToLogin()"
-        class="mt-2 w-full px-4 py-2 text-blue-600 bg-gray-100 border border-blue-500 rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300"
       >
         Return to Login
       </button>

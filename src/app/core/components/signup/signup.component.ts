@@ -1,5 +1,4 @@
-import { NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -10,16 +9,26 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-signup',
-  imports: [NgIf, ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
+  ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
 })
 export class SignupComponent {
   signupForm!: FormGroup;
   authService = inject(AuthService);
+  hidePassword = signal(true);
+  hideConfirmPassword = signal(true);
 
   constructor(private fb: FormBuilder, private router: Router) {}
 
@@ -48,7 +57,6 @@ export class SignupComponent {
 
   onSubmit() {
     if (this.signupForm.valid) {
-      alert('Submit');
       this.authService
         .signup(
           this.signupForm.get('username')?.value,

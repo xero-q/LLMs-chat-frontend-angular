@@ -16,6 +16,7 @@
           <mat-label>Password</mat-label>
           <input
             matInput
+            type="password"
             formControlName="password"
             placeholder="yourpassword"
           />
@@ -29,6 +30,7 @@
         color="primary"
         type="submit"
         class="w-full my-2"
+        [attr.aria-label]="'Submit'"
       >
         Login
       </button>
@@ -37,6 +39,7 @@
         mat-raised-button
         type="button"
         class="w-full link"
+        [attr.aria-label]="'Signup'"
         (click)="goToSignup()"
       >
         Don't have an account? Sign Up
