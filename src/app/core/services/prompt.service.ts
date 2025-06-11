@@ -20,7 +20,7 @@ export class PromptService {
 
   addPrompt(thread_id: number, prompt: string): Observable<Prompt> {
     return this.httpClient.post<Prompt>(
-      `${this.apiUrl}/api/threads/${thread_id}/response`,
+      `${this.apiUrl}/api/threads/${thread_id}/prompts`,
       {
         user_prompt: prompt,
       }
