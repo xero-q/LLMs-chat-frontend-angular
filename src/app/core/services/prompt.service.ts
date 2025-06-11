@@ -22,7 +22,7 @@ export class PromptService {
     return this.httpClient.post<Prompt>(
       `${this.apiUrl}/api/threads/${thread_id}/prompts`,
       {
-        user_prompt: prompt,
+        prompt,
       }
     );
   }
