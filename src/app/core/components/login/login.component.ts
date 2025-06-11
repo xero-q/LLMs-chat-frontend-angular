@@ -7,11 +7,12 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterModule, NgIf],
+  imports: [ReactiveFormsModule, RouterModule, MatInputModule, MatButtonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

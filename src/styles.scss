@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'styles/variables' as *;
+@import "tailwindcss";
+
+
+button {
+    font-weight: 550;
+    cursor: pointer;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+button.mdc-button--raised {
+  background-color: $primary-color !important; 
+  color: white !important;
+
+  &.link {
+    background-color: white !important;
+    border-color: $primary-color !important ;
+    color: $primary-color !important;
+  }
+}

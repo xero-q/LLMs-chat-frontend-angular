@@ -32,7 +32,8 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -96,8 +97,9 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
+            "styles": [             
+              "src/styles.scss",
+               "@angular/material/prebuilt-themes/azure-blue.css"
             ],
             "scripts": []
           }
