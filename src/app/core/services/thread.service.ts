@@ -27,7 +27,7 @@ export class ThreadService {
 
   startThread(model_id: number, thread_title: string): Observable<Thread> {
     return this.httpClient.post<Thread>(
-      `${this.apiUrl}/api/threads/${model_id}/start`,
+      `${this.apiUrl}/api/models/${model_id}/threads`,
       {
         title: thread_title,
       }
