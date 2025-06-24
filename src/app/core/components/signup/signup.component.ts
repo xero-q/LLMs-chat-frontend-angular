@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { last } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -36,9 +37,10 @@ export class SignupComponent {
     this.signupForm = this.fb.group(
       {
         username: ['', Validators.required],
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
         password: ['', Validators.required],
         passwordConfirmation: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
       },
       { validators: this.passwordMismatchValidator }
     );
@@ -60,7 +62,8 @@ export class SignupComponent {
       this.authService
         .signup(
           this.signupForm.get('username')?.value,
-          this.signupForm.get('email')?.value,
+          this.signupForm.get('firstName')?.value,
+          this.signupForm.get('lastName')?.value,
           this.signupForm.get('password')?.value
         )
         .subscribe({

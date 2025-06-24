@@ -13,20 +13,24 @@
         </mat-form-field>
       </div>
 
-      <!-- Email -->
+      <!-- First Name -->
       <div class="mb-4">
         <mat-form-field class="w-full">
-          <mat-label>Email</mat-label>
-          <input
-            matInput
-            formControlName="email"
-            placeholder="johndoe@domain.com"
-          />
-          @if (signupForm.controls['email'].hasError('required')) {
-          <mat-error>Email is <strong>required</strong></mat-error>
-          } @if (!signupForm.controls['email'].hasError('required') &&
-          signupForm.controls['email'].hasError('email')) {
-          <mat-error>Enter a valid email</mat-error>
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" placeholder="John" />
+          @if (signupForm.controls['firstName'].hasError('required')) {
+          <mat-error>First name is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <!-- First Name -->
+      <div class="mb-4">
+        <mat-form-field class="w-full">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" placeholder="Doe" />
+          @if (signupForm.controls['lastName'].hasError('required')) {
+          <mat-error>Last name is <strong>required</strong></mat-error>
           }
         </mat-form-field>
       </div>

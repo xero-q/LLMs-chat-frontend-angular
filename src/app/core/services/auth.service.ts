@@ -29,10 +29,16 @@ export class AuthService {
     );
   }
 
-  signup(username: string, email: string, password: string) {
+  signup(
+    username: string,
+    firstName: string,
+    lastName: string,
+    password: string
+  ) {
     const payload = {
       username,
-      email,
+      firstName,
+      lastName,
       password,
     };
 

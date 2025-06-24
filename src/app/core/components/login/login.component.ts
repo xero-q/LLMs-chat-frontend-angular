@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,10 +17,11 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  loginForm!: FormGroup;
-  authService = inject(AuthService);
-
-  constructor(private fb: FormBuilder, private router: Router) {}
+  protected loginForm!: FormGroup;
+  private authService = inject(AuthService);
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  protected isSubmitting = signal(false);
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -31,6 +32,8 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      this.isSubmitting.set(true);
+
       this.authService
         .login(
           this.loginForm.get('username')?.value,
@@ -38,9 +41,11 @@ export class LoginComponent {
         )
         .subscribe({
           next: () => {
+            this.isSubmitting.set(false);
             this.router.navigate(['/home']);
           },
           error: (error: any) => {
+            this.isSubmitting.set(false);
             const messages = error.error.detail ?? error.error.error;
             let messagesString = '';
             if (Array.isArray(messages)) {
