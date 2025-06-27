@@ -12,15 +12,15 @@ export class PromptService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getPrompts(thread_id: number): Observable<Prompt[]> {
+  getPrompts(threadId: number): Observable<Prompt[]> {
     return this.httpClient.get<Prompt[]>(
-      `${this.apiUrl}/api/threads/${thread_id}/prompts`
+      `${this.apiUrl}/api/threads/${threadId}/prompts`
     );
   }
 
-  addPrompt(thread_id: number, prompt: string): Observable<Prompt> {
+  addPrompt(threadId: number, prompt: string): Observable<Prompt> {
     return this.httpClient.post<Prompt>(
-      `${this.apiUrl}/api/threads/${thread_id}/prompts`,
+      `${this.apiUrl}/api/threads/${threadId}/prompts`,
       {
         prompt,
       }

@@ -1,38 +1,36 @@
-<div *ngIf="stateService.selectedModel && threadFormVisible">
-  <form [formGroup]="threadForm" (ngSubmit)="onSubmit()">
+@if (stateService.selectedModel && threadFormVisible()){
+<div>
+  <form [formGroup]="threadForm()" (ngSubmit)="onSubmit()">
     <h2 class="text-lg font-semibold mb-2">New Thread</h2>
     <input
       type="text"
       placeholder="Thread name..."
       class="w-full border rounded px-2 py-1 mb-1"
-      formControlName="thread_title"
+      formControlName="threadTitle"
       type="text"
     />
-    <div
-      *ngIf="
-        threadForm.get('thread_title')?.invalid &&
-        threadForm.get('thread_title')?.touched
-      "
-    >
-      <p
-        class="text-sm text-red-500 mt-1"
-        *ngIf="threadForm.get('thread_title')?.errors?.['required']"
-      >
-        Title is required.
-      </p>
+    @if (threadForm().get('threadTitle')?.invalid &&
+    threadForm().get('threadTitle')?.touched){
+    <div>
+      @if (threadForm().get('threadTitle')?.errors?.['required']){
+      <p class="text-sm text-red-500 mt-1">Title is required.</p>
+      }
     </div>
+    }
+
     <button class="w-full bg-blue-500 text-white py-1 rounded mb-2">
       Submit
     </button>
   </form>
 </div>
+} @if (stateService.selectedModel){
 <button
-  *ngIf="stateService.selectedModel"
   class="w-full bg-blue-500 text-white py-1 rounded"
-  (click)="threadFormVisible = !threadFormVisible"
+  (click)="threadFormVisible.set(!threadFormVisible())"
 >
   Toggle Thread Form
 </button>
+}
 
 <div class="container">
   @for (threadList of threads(); track threadList.date) {
@@ -40,7 +38,8 @@
     <h3 class="text-lg font-semibold mb-2">
       {{ threadList.date | friendlyDate }}
     </h3>
-    <div *ngFor="let thread of threadList.threads">
+    @for (thread of threadList.threads;track thread.id ){
+    <div>
       <div
         class="card"
         (click)="onThreadSelect(thread)"
@@ -49,13 +48,14 @@
         <h4>{{ thread.title }} ({{ thread.modelType }})</h4>
       </div>
     </div>
+    }
   </div>
-  }
+  } @if (hasNext()){
   <button
-    *ngIf="hasNext"
     class="w-full bg-blue-500 text-white py-1 rounded mb-2"
     (click)="loadMore()"
   >
     Load more...
   </button>
+  }
 </div>

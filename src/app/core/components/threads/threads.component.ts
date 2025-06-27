@@ -1,14 +1,11 @@
 import { Component, inject, signal, computed } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 import { ThreadService } from '../../services/thread.service';
-import { Thread } from '../../../shared/interfaces/thread';
 import { StateService } from '../../services/state.service';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+
+import { Thread } from '../../../shared/interfaces/thread';
 import {
   PaginatedThreadsList,
   ThreadsList,
@@ -17,33 +14,33 @@ import { FriendlyDatePipe } from '../../../shared/pipes/friendly-date.pipe';
 
 @Component({
   selector: 'app-threads',
-  imports: [ReactiveFormsModule, NgIf, NgFor, CommonModule, FriendlyDatePipe],
+  imports: [ReactiveFormsModule, CommonModule, FriendlyDatePipe],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
 })
 export class ThreadsComponent {
-  private threadService = inject(ThreadService);
-  public stateService = inject(StateService);
+  private readonly threadService = inject(ThreadService);
+  protected readonly stateService = inject(StateService);
+  private readonly fb = inject(FormBuilder);
 
-  page = 1;
-  pageSize = 20;
-  hasNext = false;
+  private readonly page = signal(1);
+  private readonly pageSize = 20;
+  protected readonly hasNext = signal(false);
 
-  threadForm!: FormGroup;
-  threadFormVisible = false;
+  protected readonly threadForm = signal(
+    this.fb.group({
+      threadTitle: ['', Validators.required],
+    })
+  );
+  protected readonly threadFormVisible = signal(false);
 
-  private pages = signal(new Map<number, ThreadsList[]>());
-
-  constructor(private fb: FormBuilder) {}
+  private readonly pages = signal(new Map<number, ThreadsList[]>());
 
   ngOnInit(): void {
-    this.threadForm = this.fb.group({
-      thread_title: ['', Validators.required],
-    });
     this.loadPage(1);
   }
 
-  public threads = computed(() => {
+  protected readonly threads = computed(() => {
     const allThreads = Array.from(this.pages().values())
       .flat()
       .flatMap((group) => group.threads);
@@ -75,8 +72,8 @@ export class ThreadsComponent {
         pagesCopy.set(page, data.results);
         this.pages.set(pagesCopy);
 
-        this.page = data.currentPage;
-        this.hasNext = data.hasNext;
+        this.page.set(data.currentPage);
+        this.hasNext.set(data.hasNext);
       });
   }
 
@@ -85,15 +82,15 @@ export class ThreadsComponent {
   }
 
   onSubmit() {
-    if (this.threadForm.valid) {
+    if (this.threadForm().valid) {
       this.threadService
         .startThread(
           this.stateService.selectedModel!.id,
-          this.threadForm.get('thread_title')?.value
+          this.threadForm().get('threadTitle')?.value!
         )
         .subscribe({
           next: () => {
-            this.threadForm.reset();
+            this.threadForm().reset();
             this.reloadFirstPage(); // only reload page 1
           },
           error: (error: any) => {
@@ -115,7 +112,7 @@ export class ThreadsComponent {
   }
 
   loadMore() {
-    this.loadPage(this.page + 1);
+    this.loadPage(this.page() + 1);
   }
 
   removeThread(threadId: number) {

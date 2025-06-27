@@ -1,12 +1,12 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
   <div class="w-full max-w-md p-8 bg-white rounded shadow-md">
     <h2 class="mb-6 text-2xl font-bold text-center text-gray-800">Login</h2>
-    <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm()" novalidate (ngSubmit)="onSubmit()">
       <div class="mb-4">
         <mat-form-field class="w-full">
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" placeholder="johndoe" />
-          @if (loginForm.controls['username'].hasError('required')) {
+          @if (loginForm().controls['username'].hasError('required')) {
           <mat-error>Username is <strong>required</strong></mat-error>
           }
         </mat-form-field>
@@ -20,7 +20,7 @@
             formControlName="password"
             placeholder="yourpassword"
           />
-          @if (loginForm.controls['password'].hasError('required')) {
+          @if (loginForm().controls['password'].hasError('required')) {
           <mat-error>Password is <strong>required</strong></mat-error>
           }
         </mat-form-field>

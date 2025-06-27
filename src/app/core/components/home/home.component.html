@@ -24,8 +24,8 @@
         </button>
 
         <!-- Dropdown menu -->
+        @if (menuOpen()){
         <div
-          *ngIf="menuOpen"
           class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-10"
         >
           <button
@@ -35,6 +35,7 @@
             Logout
           </button>
         </div>
+        }
       </div>
     </div>
   </header>
@@ -43,11 +44,12 @@
       <app-threads></app-threads>
     </aside>
     <section class="flex-1 p-6 overflow-y-auto flex flex-col">
+      @if (stateService.selectedThread) {
       <app-prompts
-        *ngIf="stateService.selectedThread"
         [threadId]="stateService.selectedThread!.id"
         (threadDeleted)="onThreadDeleted(stateService.selectedThread!.id)"
       ></app-prompts>
+      }
     </section>
   </main>
 </div>

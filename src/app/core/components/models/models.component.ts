@@ -1,4 +1,10 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { Model } from '../../../shared/interfaces/model';
 import { ModelService } from '../../services/model.service';
 import { StateService } from '../../services/state.service';
@@ -8,12 +14,13 @@ import { StateService } from '../../services/state.service';
   imports: [],
   templateUrl: './models.component.html',
   styleUrl: './models.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModelsComponent {
-  private modelsService = inject(ModelService);
-  public stateService = inject(StateService);
+  private readonly modelsService = inject(ModelService);
+  protected readonly stateService = inject(StateService);
 
-  public models: WritableSignal<Model[]> = signal([]);
+  protected readonly models: WritableSignal<Model[]> = signal([]);
 
   constructor() {
     this.modelsService.getModels().subscribe((data) => {

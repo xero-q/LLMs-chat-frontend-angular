@@ -1,10 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Thread } from '../../shared/interfaces/thread';
-import {
-  PaginatedThreadsList,
-  ThreadsList,
-} from '../../shared/interfaces/threads-list';
+import { PaginatedThreadsList } from '../../shared/interfaces/threads-list';
 import { Observable } from 'rxjs';
 import environment from '../../../environments/environment.development';
 

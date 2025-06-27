@@ -1,43 +1,45 @@
-import { Component, inject, signal } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, RouterModule, MatInputModule, MatButtonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  protected loginForm!: FormGroup;
-  private authService = inject(AuthService);
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-  protected isSubmitting = signal(false);
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
+  protected readonly loginForm = signal(
+    this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-    });
-  }
+    })
+  );
+
+  protected readonly isSubmitting = signal(false);
 
   onSubmit() {
-    if (this.loginForm.valid) {
+    if (this.loginForm().valid) {
       this.isSubmitting.set(true);
 
       this.authService
         .login(
-          this.loginForm.get('username')?.value,
-          this.loginForm.get('password')?.value
+          this.loginForm().get('username')?.value!,
+          this.loginForm().get('password')?.value!
         )
         .subscribe({
           next: () => {

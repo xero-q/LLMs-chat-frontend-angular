@@ -3,41 +3,44 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   inject,
+  signal,
   ViewChild,
 } from '@angular/core';
-import { ThreadsComponent } from '../threads/threads.component';
-import { StateService } from '../../services/state.service';
-import { ModelsComponent } from '../models/models.component';
-import { NgIf } from '@angular/common';
-import { PromptsComponent } from '../prompts/prompts.component';
+
 import { AuthService } from '../../services/auth.service';
+import { StateService } from '../../services/state.service';
+
+import { ThreadsComponent } from '../threads/threads.component';
+import { ModelsComponent } from '../models/models.component';
+import { PromptsComponent } from '../prompts/prompts.component';
 
 @Component({
   selector: 'app-home',
-  imports: [ModelsComponent, ThreadsComponent, PromptsComponent, NgIf],
+  imports: [ModelsComponent, ThreadsComponent, PromptsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  stateService = inject(StateService);
-  authService = inject(AuthService);
-  menuOpen = false;
+  protected readonly stateService = inject(StateService);
+  private readonly authService = inject(AuthService);
+
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @ViewChild(ThreadsComponent) threadsComponent!: ThreadsComponent;
   @ViewChild(PromptsComponent) promptsComponent!: PromptsComponent;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  protected readonly menuOpen = signal(false);
 
-  onThreadDeleted(thread_id: number) {
+  onThreadDeleted(threadId: number) {
     if (this.threadsComponent) {
-      this.threadsComponent.removeThread(thread_id);
+      this.threadsComponent.removeThread(threadId);
       this.cdr.detectChanges();
     }
   }
 
   toggleMenu() {
-    this.menuOpen = !this.menuOpen;
+    this.menuOpen.update((value) => !value);
   }
 
   logout() {

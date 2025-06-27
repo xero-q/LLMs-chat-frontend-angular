@@ -1,25 +1,22 @@
 import {
   Component,
-  EventEmitter,
   inject,
-  Input,
-  Output,
+  input,
+  output,
   signal,
   SimpleChanges,
   WritableSignal,
 } from '@angular/core';
-import { PromptService } from '../../services/prompt.service';
-import { Prompt } from '../../../shared/interfaces/prompt';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+
 import { MarkdownModule } from 'ngx-markdown';
+
+import { PromptService } from '../../services/prompt.service';
 import { StateService } from '../../services/state.service';
 import { ThreadService } from '../../services/thread.service';
+
+import { Prompt } from '../../../shared/interfaces/prompt';
 import { FriendlyDatePipe } from '../../../shared/pipes/friendly-date.pipe';
 
 @Component({
@@ -34,29 +31,27 @@ import { FriendlyDatePipe } from '../../../shared/pipes/friendly-date.pipe';
   styleUrl: './prompts.component.scss',
 })
 export class PromptsComponent {
-  private promptsService = inject(PromptService);
-  private threadsService = inject(ThreadService);
-  public stateService = inject(StateService);
+  private readonly promptsService = inject(PromptService);
+  private readonly threadsService = inject(ThreadService);
+  protected readonly stateService = inject(StateService);
 
-  @Input() threadId!: number;
-  @Output() threadDeleted = new EventEmitter<number>();
+  private readonly fb = inject(FormBuilder);
 
-  promptForm!: FormGroup;
+  public readonly threadId = input.required<number>();
+  public readonly threadDeleted = output<number>();
 
-  public prompts: WritableSignal<Prompt[]> = signal([]);
-
-  submitting = false;
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.promptForm = this.fb.group({
+  protected readonly promptForm = signal(
+    this.fb.group({
       prompt: ['', Validators.required],
-    });
-  }
+    })
+  );
+
+  protected prompts: WritableSignal<Prompt[]> = signal([]);
+
+  protected readonly isSubmitting = signal(false);
 
   doLoadPrompts() {
-    this.promptsService.getPrompts(this.threadId).subscribe((data) => {
+    this.promptsService.getPrompts(this.threadId()).subscribe((data) => {
       this.prompts.set(data);
     });
   }
@@ -68,18 +63,18 @@ export class PromptsComponent {
   }
 
   onSubmit() {
-    if (this.promptForm.valid) {
-      this.submitting = true;
+    if (this.promptForm().valid) {
+      this.isSubmitting.set(true);
       this.promptsService
-        .addPrompt(this.threadId, this.promptForm.get('prompt')?.value)
+        .addPrompt(this.threadId(), this.promptForm().get('prompt')?.value!)
         .subscribe({
           next: (response: Prompt) => {
-            this.submitting = false;
-            this.promptForm.reset();
+            this.isSubmitting.set(false);
+            this.promptForm().reset();
             this.doLoadPrompts();
           },
           error: (error: any) => {
-            this.submitting = false;
+            this.isSubmitting.set(false);
             const messages = error.error.message ?? error.error.error;
             let messagesString = '';
             if (Array.isArray(messages)) {
@@ -93,15 +88,15 @@ export class PromptsComponent {
     }
   }
 
-  onDeleteThread(thread_id: number) {
+  onDeleteThread(threadId: number) {
     if (confirm('Are you sure?')) {
-      this.threadsService.deleteThread(thread_id).subscribe({
+      this.threadsService.deleteThread(threadId).subscribe({
         next: () => {
-          this.threadDeleted.emit(thread_id);
+          this.threadDeleted.emit(threadId);
           this.stateService.clearSelectedThread();
         },
         error: (error: any) => {
-          this.submitting = false;
+          this.isSubmitting.set(false);
           const messages = error.error.message ?? error.error.error;
           let messagesString = '';
           if (Array.isArray(messages)) {

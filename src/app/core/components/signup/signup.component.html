@@ -1,13 +1,13 @@
 <div class="flex items-center justify-center min-h-screen bg-gray-100">
   <div class="w-full max-w-md p-8 bg-white rounded shadow-md">
     <h2 class="mb-6 text-2xl font-bold text-center text-gray-800">Sign Up</h2>
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="signupForm()" (ngSubmit)="onSubmit()">
       <!-- Username -->
       <div class="mb-4">
         <mat-form-field class="w-full">
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" placeholder="johndoe" />
-          @if (signupForm.controls['username'].hasError('required')) {
+          @if (signupForm().controls['username'].hasError('required')) {
           <mat-error>Username is <strong>required</strong></mat-error>
           }
         </mat-form-field>
@@ -18,7 +18,7 @@
         <mat-form-field class="w-full">
           <mat-label>First Name</mat-label>
           <input matInput formControlName="firstName" placeholder="John" />
-          @if (signupForm.controls['firstName'].hasError('required')) {
+          @if (signupForm().controls['firstName'].hasError('required')) {
           <mat-error>First name is <strong>required</strong></mat-error>
           }
         </mat-form-field>
@@ -29,7 +29,7 @@
         <mat-form-field class="w-full">
           <mat-label>Last Name</mat-label>
           <input matInput formControlName="lastName" placeholder="Doe" />
-          @if (signupForm.controls['lastName'].hasError('required')) {
+          @if (signupForm().controls['lastName'].hasError('required')) {
           <mat-error>Last name is <strong>required</strong></mat-error>
           }
         </mat-form-field>
@@ -62,7 +62,7 @@
             }}</mat-icon>
           </button>
 
-          @if (signupForm.controls['password'].hasError('required')) {
+          @if (signupForm().controls['password'].hasError('required')) {
           <mat-error>Password is <strong>required</strong></mat-error>
           }
         </mat-form-field>
@@ -92,17 +92,17 @@
               hideConfirmPassword() ? "visibility" : "visibility_off"
             }}</mat-icon>
           </button>
-          @if (!signupForm.controls['password'].hasError('required') &&
-          signupForm.controls['passwordConfirmation'].hasError('required')) {
+          @if (!signupForm().controls['password'].hasError('required') &&
+          signupForm().controls['passwordConfirmation'].hasError('required')) {
           <mat-error
             >Confirming your password is <strong>required</strong></mat-error
           >
           }
         </mat-form-field>
 
-        @if (signupForm.errors?.['passwordMismatch'] &&
-        !signupForm.get('passwordConfirmation')?.errors?.['required'] &&
-        signupForm.touched) {
+        @if (signupForm().errors?.['passwordMismatch'] &&
+        !signupForm().get('passwordConfirmation')?.errors?.['required'] &&
+        signupForm().touched) {
         <mat-error>Passwords do not match</mat-error>
         }
       </div>

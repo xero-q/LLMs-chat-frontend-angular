@@ -1,4 +1,5 @@
-<div class="container" *ngIf="stateService.selectedThread">
+@if (stateService.selectedThread){
+<div class="container">
   <div class="mb-4 flex items-center justify-between">
     <div>
       <h2 class="text-xl font-semibold">
@@ -24,10 +25,8 @@
     </button>
   </div>
 
-  <div
-    class="flex-1 border rounded p-4 bg-gray-50 mb-4 overflow-y-auto"
-    *ngIf="prompts().length > 0"
-  >
+  @if (prompts().length > 0){
+  <div class="flex-1 border rounded p-4 bg-gray-50 mb-4 overflow-y-auto">
     @for (prompt of prompts(); track prompt.id) {
     <div class="mb-4">
       <div class="bg-white shadow px-4 py-2 rounded mb-2">
@@ -41,9 +40,10 @@
     </div>
     }
   </div>
+  }
 
   <div class="form-container">
-    <form [formGroup]="promptForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="promptForm()" (ngSubmit)="onSubmit()">
       <div>
         <textarea
           class="flex-1 border rounded px-3 py-2 mb-2"
@@ -54,12 +54,16 @@
         <button
           type="submit"
           class="bg-blue-600 text-white px-4 py-2 rounded"
-          [disabled]="promptForm.invalid || submitting"
+          [disabled]="promptForm().invalid || isSubmitting()"
         >
           Send
         </button>
       </div>
-      <span *ngIf="submitting">Waiting response...</span>
+      @if (isSubmitting()){
+      <span>Waiting response...</span>
+      }
     </form>
   </div>
 </div>
+
+}
