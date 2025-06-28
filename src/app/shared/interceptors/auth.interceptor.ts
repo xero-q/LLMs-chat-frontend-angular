@@ -16,7 +16,7 @@ import {
   take,
   throwError,
 } from 'rxjs';
-import { AuthService } from '../core/services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

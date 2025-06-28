@@ -8,7 +8,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideMarkdown } from 'ngx-markdown';
-import { AuthInterceptor } from './shared/auth.interceptor';
+import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
