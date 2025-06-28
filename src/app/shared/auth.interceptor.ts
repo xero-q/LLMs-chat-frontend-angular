@@ -45,8 +45,11 @@ export class AuthInterceptor implements HttpInterceptor {
       });
       return next.handle(cloned).pipe(
         catchError((error) => {
-          if (error instanceof HttpErrorResponse && error.status === 403) {
-            return this.handle403Error(cloned, next);
+          if (
+            error instanceof HttpErrorResponse &&
+            (error.status === 403 || error.status === 401)
+          ) {
+            return this.handleUnauthorizedError(cloned, next);
           }
           return throwError(() => error);
         })
@@ -56,7 +59,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req);
   }
 
-  private handle403Error(
+  private handleUnauthorizedError(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
