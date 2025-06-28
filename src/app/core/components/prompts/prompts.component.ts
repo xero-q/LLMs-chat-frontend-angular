@@ -75,7 +75,7 @@ export class PromptsComponent {
           },
           error: (error: any) => {
             this.isSubmitting.set(false);
-            const messages = error.error.message ?? error.error.error;
+            const messages = error.error.message ?? error.error.detail;
             let messagesString = '';
             if (Array.isArray(messages)) {
               messagesString = messages.join(', ');
