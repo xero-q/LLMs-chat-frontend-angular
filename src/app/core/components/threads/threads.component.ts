@@ -94,7 +94,7 @@ export class ThreadsComponent {
             this.reloadFirstPage(); // only reload page 1
           },
           error: (error: any) => {
-            const messages = error.error.message ?? error.error.error;
+            const messages = error.error.message ?? error.error.detail;
             let messagesString = '';
             if (Array.isArray(messages)) {
               messagesString = messages.join('\n');
