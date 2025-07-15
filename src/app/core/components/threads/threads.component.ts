@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -18,7 +18,7 @@ import { FriendlyDatePipe } from '../../../shared/pipes/friendly-date.pipe';
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.scss',
 })
-export class ThreadsComponent {
+export class ThreadsComponent implements OnInit {
   private readonly threadService = inject(ThreadService);
   protected readonly stateService = inject(StateService);
   private readonly fb = inject(FormBuilder);
@@ -86,7 +86,7 @@ export class ThreadsComponent {
       this.threadService
         .startThread(
           this.stateService.selectedModel!.id,
-          this.threadForm().get('threadTitle')?.value!
+          this.threadForm().get('threadTitle')!.value ?? ''
         )
         .subscribe({
           next: () => {

@@ -41,6 +41,7 @@
     @for (thread of threadList.threads;track thread.id ){
     <div>
       <div
+        tabindex="0"
         class="card"
         (click)="onThreadSelect(thread)"
         [class.selected]="thread.id === stateService.selectedThread?.id"

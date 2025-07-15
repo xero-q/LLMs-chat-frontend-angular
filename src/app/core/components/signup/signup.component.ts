@@ -7,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { last } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -62,10 +61,10 @@ export class SignupComponent {
     if (this.signupForm().valid) {
       this.authService
         .signup(
-          this.signupForm().get('username')?.value!,
-          this.signupForm().get('firstName')?.value!,
-          this.signupForm().get('lastName')?.value!,
-          this.signupForm().get('password')?.value!
+          this.signupForm().get('username')!.value ?? '',
+          this.signupForm().get('firstName')!.value ?? '',
+          this.signupForm().get('lastName')!.value ?? '',
+          this.signupForm().get('password')!.value ?? ''
         )
         .subscribe({
           next: () => {
@@ -73,7 +72,7 @@ export class SignupComponent {
           },
           error: (error: any) => {
             const errorObj = error.error;
-            let messages = [];
+            const messages = [];
 
             for (const key in errorObj) {
               messages.push(`${key}: ${errorObj[key]}`);

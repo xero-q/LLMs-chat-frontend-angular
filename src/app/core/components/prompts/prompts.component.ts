@@ -2,6 +2,7 @@ import {
   Component,
   inject,
   input,
+  OnChanges,
   output,
   signal,
   SimpleChanges,
@@ -30,7 +31,7 @@ import { FriendlyDatePipe } from '../../../shared/pipes/friendly-date.pipe';
   templateUrl: './prompts.component.html',
   styleUrl: './prompts.component.scss',
 })
-export class PromptsComponent {
+export class PromptsComponent implements OnChanges {
   private readonly promptsService = inject(PromptService);
   private readonly threadsService = inject(ThreadService);
   protected readonly stateService = inject(StateService);
@@ -66,9 +67,12 @@ export class PromptsComponent {
     if (this.promptForm().valid) {
       this.isSubmitting.set(true);
       this.promptsService
-        .addPrompt(this.threadId(), this.promptForm().get('prompt')?.value!)
+        .addPrompt(
+          this.threadId(),
+          this.promptForm().get('prompt')!.value ?? ''
+        )
         .subscribe({
-          next: (response: Prompt) => {
+          next: () => {
             this.isSubmitting.set(false);
             this.promptForm().reset();
             this.doLoadPrompts();

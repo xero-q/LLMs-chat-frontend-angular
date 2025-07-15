@@ -38,8 +38,8 @@ export class LoginComponent {
 
       this.authService
         .login(
-          this.loginForm().get('username')?.value!,
-          this.loginForm().get('password')?.value!
+          this.loginForm().get('username')!.value ?? '',
+          this.loginForm().get('password')!.value ?? ''
         )
         .subscribe({
           next: () => {

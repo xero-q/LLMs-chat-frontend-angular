@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Thread } from '../../shared/interfaces/thread';
 import { PaginatedThreadsList } from '../../shared/interfaces/threads-list';
 import { Observable } from 'rxjs';
@@ -10,13 +10,9 @@ import environment from '../../../environments/environment.development';
 })
 export class ThreadService {
   private apiUrl = environment.API_URL;
+  private httpClient = inject(HttpClient);
 
-  constructor(private httpClient: HttpClient) {}
-
-  getThreads(
-    page: number,
-    pageSize: number = 20
-  ): Observable<PaginatedThreadsList> {
+  getThreads(page: number, pageSize = 20): Observable<PaginatedThreadsList> {
     return this.httpClient.get<PaginatedThreadsList>(
       `${this.apiUrl}/api/threads?page=${page}&pageSize=${pageSize}`
     );

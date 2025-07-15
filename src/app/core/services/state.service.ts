@@ -9,8 +9,6 @@ export class StateService {
   public selectedModel: Model | null = null;
   public selectedThread: Thread | null = null;
 
-  constructor() {}
-
   setSelectedModel(model: Model) {
     this.selectedModel = model;
   }

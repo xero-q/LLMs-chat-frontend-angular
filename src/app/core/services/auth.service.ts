@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import environment from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private apiUrl = environment.API_URL;
-
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  private httpClient = inject(HttpClient);
+  private router = inject(Router);
 
   login(username: string, password: string) {
     const payload = {
